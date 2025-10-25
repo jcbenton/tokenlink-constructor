@@ -1,14 +1,17 @@
 <?php
 /*
-Plugin Name: Tokenlink Plugin Builder
-Plugin URI: https://www.mailborder.com/tokenlink-plugin-builder
-Description: Instantly create new WordPress plugins from your dashboard. Clean, secure, and built for developers who prefer efficiency over bloat.
-Version: 1.0.6
+Plugin Name: Tokenlink Constructor
+Plugin URI: https://www.mailborder.com/tokenlink-constructor
+Description: Instantly create new WordPress extensions from your dashboard. Clean, secure, and built for developers who prefer efficiency over bloat.
+Version: 1.0.7
 Author: Mailborder Systems (Jerry Benton)
 Author URI: https://www.mailborder.com
 License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: tokenlink-constructor
 */
+
+defined('ABSPATH') || exit;
 
 # ---------------------------------------------------------------------------
 # Add admin page
@@ -16,61 +19,65 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 add_action('admin_menu', function() {
     add_submenu_page(
         'plugins.php',
-        'Create Plugin',
-        'Create Plugin',
+        esc_html__('Create Extension', 'tokenlink-constructor'),
+        esc_html__('Create Extension', 'tokenlink-constructor'),
         'edit_plugins',
-        'mb-plugin-builder',
-        'mb_plugin_builder_page'
+        'tokenlink-constructor',
+        'mb_tokenlink_constructor_page'
     );
 });
 
 # ---------------------------------------------------------------------------
 # Render admin page
 # ---------------------------------------------------------------------------
-function mb_plugin_builder_page() {
+function mb_tokenlink_constructor_page() {
     if (!current_user_can('edit_plugins')) {
-        wp_die(__('You do not have permission to create plugins.'));
+        wp_die(esc_html__('You do not have permission to create extensions.', 'tokenlink-constructor'));
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('mb_plugin_builder_nonce')) {
-        mb_plugin_builder_create();
+    if (
+        isset($_SERVER['REQUEST_METHOD']) &&
+        $_SERVER['REQUEST_METHOD'] === 'POST' &&
+        check_admin_referer('tokenlink_constructor_nonce')
+    ) {
+        mb_tokenlink_constructor_create();
     }
 
     ?>
     <div class="wrap">
-        <h1>Create a New Plugin</h1>
+        <h1><?php echo esc_html__('Create a New Extension', 'tokenlink-constructor'); ?></h1>
         <form method="post">
-            <?php wp_nonce_field('mb_plugin_builder_nonce'); ?>
+            <?php wp_nonce_field('tokenlink_constructor_nonce'); ?>
             <table class="form-table">
                 <tr>
-                    <th>Plugin Name *</th>
+                    <th><?php echo esc_html__('Extension Name *', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="name" class="regular-text" required></td>
                 </tr>
                 <tr>
-                    <th>Description</th>
+                    <th><?php echo esc_html__('Description', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="description" class="regular-text"></td>
                 </tr>
                 <tr>
-                    <th>Version</th>
+                    <th><?php echo esc_html__('Version', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="version" value="1.0.1" class="regular-text"></td>
                 </tr>
                 <tr>
-                    <th>Author</th>
+                    <th><?php echo esc_html__('Author', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="author" class="regular-text"
                         value="<?php echo esc_attr(wp_get_current_user()->display_name); ?>"></td>
                 </tr>
                 <tr>
-                    <th>License</th>
+                    <th><?php echo esc_html__('License', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="license" class="regular-text" 
                         value="GPL v3 or later"></td>
                 </tr>
                 <tr>
-                    <th>License URI</th>
+                    <th><?php echo esc_html__('License URI', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="license_uri" class="regular-text" 
                         value="https://www.gnu.org/licenses/gpl-3.0.html"></td>
                 </tr>
             </table>
-            <?php submit_button('Create Plugin'); ?>
+            <?php submit_button(esc_html__('Create Extension', 'tokenlink-constructor')); ?>
         </form>
     </div>
 
@@ -100,34 +107,45 @@ function mb_plugin_builder_page() {
 }
 
 # ---------------------------------------------------------------------------
-# Create plugin
+# Create extension
 # ---------------------------------------------------------------------------
-function mb_plugin_builder_create() {
-    $name     = sanitize_text_field($_POST['name']);
-    $slug     = sanitize_title($name);
-    $desc     = sanitize_text_field($_POST['description']);
-    $ver      = sanitize_text_field($_POST['version']);
-    $auth     = sanitize_text_field($_POST['author']);
-    $license  = sanitize_text_field($_POST['license']);
-    $license_uri = sanitize_text_field($_POST['license_uri']);
+function mb_tokenlink_constructor_create() {
+
+    // ✅ Verify nonce again to satisfy plugin check and tighten security.
+    if (
+        !isset($_POST['_wpnonce']) ||
+        !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'tokenlink_constructor_nonce')
+    ) {
+        echo '<div class="notice notice-error"><p>' . esc_html__('Security check failed. Please reload the page and try again.', 'tokenlink-constructor') . '</p></div>';
+        return;
+    }
+
+    // ✅ Safely extract and sanitize all POST fields
+    $name        = isset($_POST['name'])        ? sanitize_text_field(wp_unslash($_POST['name']))        : '';
+    $slug        = sanitize_title($name);
+    $desc        = isset($_POST['description']) ? sanitize_text_field(wp_unslash($_POST['description'])) : '';
+    $ver         = isset($_POST['version'])     ? sanitize_text_field(wp_unslash($_POST['version']))     : '';
+    $auth        = isset($_POST['author'])      ? sanitize_text_field(wp_unslash($_POST['author']))      : '';
+    $license     = isset($_POST['license'])     ? sanitize_text_field(wp_unslash($_POST['license']))     : '';
+    $license_uri = isset($_POST['license_uri']) ? sanitize_text_field(wp_unslash($_POST['license_uri'])) : '';
 
     $plugin_dir  = WP_PLUGIN_DIR . "/{$slug}";
     $plugin_file = "{$plugin_dir}/{$slug}.php";
 
     if (file_exists($plugin_dir)) {
-        echo '<div class="notice notice-error"><p>That plugin slug already exists.</p></div>';
+        echo '<div class="notice notice-error"><p>' . esc_html__('That extension slug already exists.', 'tokenlink-constructor') . '</p></div>';
         return;
     }
 
     if (!wp_mkdir_p($plugin_dir)) {
-        echo '<div class="notice notice-error"><p>Unable to create plugin directory.</p></div>';
+        echo '<div class="notice notice-error"><p>' . esc_html__('Unable to create the extension directory.', 'tokenlink-constructor') . '</p></div>';
         return;
     }
 
     # Build plugin header
     $header  = "<?php\n";
     $header .= "/*\n";
-    $header .= "Plugin Name: {$name}\n";
+    $header .= "Extension Name: {$name}\n";
     $header .= "Description: {$desc}\n";
     $header .= "Version: {$ver}\n";
     $header .= "Author: {$auth}\n";
@@ -137,35 +155,31 @@ function mb_plugin_builder_create() {
 
     # Write to file
     if (file_put_contents($plugin_file, $header) === false) {
-        echo '<div class="notice notice-error"><p>Failed to write plugin file.</p></div>';
+        echo '<div class="notice notice-error"><p>' . esc_html__('Failed to write extension file.', 'tokenlink-constructor') . '</p></div>';
         return;
     }
 
     # Create a default readme.txt file
-    $readme  = "=== {$name} ===\n";
-    $readme .= "Contributors: your-wordpress-username-here\n";
-    $readme .= "Tags: custom, plugin\n";
-    $readme .= "Requires at least: 5.0\n";
-    
     global $wp_version;
     preg_match('/^\d+\.\d+/', $wp_version, $match);
     $tested_up_to = $match[0] ?? $wp_version;
-    $readme .= "Tested up to: {$tested_up_to}\n";
 
+    $readme  = "=== {$name} ===\n";
+    $readme .= "Contributors: your-wordpress-username-here\n";
+    $readme .= "Tags: custom, extension\n";
+    $readme .= "Requires at least: 5.0\n";
     $readme .= "Tested up to: {$tested_up_to}\n";
     $readme .= "Stable tag: {$ver}\n";
     $readme .= "License: {$license}\n";
     $readme .= "License URI: {$license_uri}\n\n";
-    
     $readme .= "== Description ==\n";
-    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Describe your plugin here.\n\n");
-
+    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Describe your extension here.\n\n");
     $readme .= "== Installation ==\n";
     $readme .= "1. Upload to `/wp-content/plugins/`\n";
     $readme .= "2. Activate via WordPress admin\n\n";
     $readme .= "== Changelog ==\n";
     $readme .= "= {$ver} =\n";
-    $readme .= "- Initial plugin stub generated using Tokenlink Plugin Builder\n";
+    $readme .= "- Initial extension stub generated using Tokenlink Constructor\n";
 
     file_put_contents("{$plugin_dir}/readme.txt", $readme);
 
@@ -176,14 +190,13 @@ function mb_plugin_builder_create() {
     $result = activate_plugin("{$slug}/{$slug}.php", '', false, true);
 
     if (is_wp_error($result)) {
-        // Ignore common transient cache errors
         $error_code = $result->get_error_code();
         if ($error_code === 'invalid_plugin' || $error_code === 'plugin_not_found') {
-            echo '<div class="notice notice-success"><p>Plugin created successfully. Please refresh your Plugins page to activate it.</p></div>';
+            echo '<div class="notice notice-success"><p>' . esc_html__('Extension created successfully. Please refresh your Plugins page to activate it.', 'tokenlink-constructor') . '</p></div>';
             return;
         }
-        echo '<div class="notice notice-error"><p>Plugin created but could not be activated: ' . esc_html($result->get_error_message()) . '</p></div>';
+        echo '<div class="notice notice-error"><p>' . esc_html__('Extension created but could not be activated: ', 'tokenlink-constructor') . esc_html($result->get_error_message()) . '</p></div>';
     } else {
-        echo '<div class="notice notice-success"><p>Plugin created and activated successfully.</p></div>';
+        echo '<div class="notice notice-success"><p>' . esc_html__('Extension created and activated successfully.', 'tokenlink-constructor') . '</p></div>';
     }
 }
