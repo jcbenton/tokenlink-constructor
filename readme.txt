@@ -1,10 +1,10 @@
-=== Tokenlink - Plugin Builder ===
+=== Tokenlink Plugin Builder ===
 Contributors: mailborder
 Tags: plugin builder, developer tools, create plugin, plugin creator
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.5
 License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ Lightweight internal plugin creator for WordPress developers. Quickly generate a
 
 == Description ==
 
-Tokenlink - Plugin Builder is a simple, secure utility for WordPress developers who want to rapidly prototype or create new plugins without leaving the dashboard.
+Tokenlink Plugin Builder is a simple, secure utility for WordPress developers who want to rapidly prototype or create new plugins without leaving the dashboard.
 
 It provides a minimal admin interface under **Plugins → Create Plugin** that lets you:
 * Enter a plugin name, slug, and metadata
