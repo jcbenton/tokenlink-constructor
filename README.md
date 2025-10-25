@@ -1,4 +1,4 @@
-# Tokenlink Constructor
+# TokenLink Constructor
 
 **Contributors:** mailborder  
 **Tags:** plugin builder, plugin creator, create plugin, extension builder, developer tools
