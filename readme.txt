@@ -1,5 +1,5 @@
 === Tokenlink - Plugin Builder ===
-Contributors: mailborder, jerrybenton
+Contributors: mailborder
 Tags: plugin builder, developer tools, create plugin, plugin creator
 Requires at least: 5.0
 Tested up to: 6.8
