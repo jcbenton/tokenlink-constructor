@@ -4,7 +4,7 @@ Tags: plugin builder, developer tools, create plugin, plugin creator
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPL v3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,6 +65,16 @@ Each plugin is created under `/wp-content/plugins/{your-slug}/` with a single PH
 * No remote calls or external dependencies are used.
 
 == Changelog ==
+
+= 1.0.6 =
+* Code cleanup and enhancements
+* Added automatic readme.txt creation
+
+= 1.0.5 =
+* Code cleanup and enhancements
+* Added pre-populated license fields
+* Improved slug generation logic
+* JavaScript slug preview added
 
 = 1.0.1 =
 * Initial release

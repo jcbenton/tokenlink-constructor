@@ -3,7 +3,7 @@
 Plugin Name: Tokenlink Plugin Builder
 Plugin URI: https://www.mailborder.com/tokenlink-plugin-builder
 Description: Instantly create new WordPress plugins from your dashboard. Clean, secure, and built for developers who prefer efficiency over bloat.
-Version: 1.0.5
+Version: 1.0.6
 Author: Mailborder Systems (Jerry Benton)
 Author URI: https://www.mailborder.com
 License: GPL v3 or later
@@ -141,10 +141,48 @@ function mb_plugin_builder_create() {
         return;
     }
 
-    $result = activate_plugin("{$slug}/{$slug}.php");
+    # Create a default readme.txt file
+    $readme  = "=== {$name} ===\n";
+    $readme .= "Contributors: your-wordpress-username-here\n";
+    $readme .= "Tags: custom, plugin\n";
+    $readme .= "Requires at least: 5.0\n";
+    
+    global $wp_version;
+    preg_match('/^\d+\.\d+/', $wp_version, $match);
+    $tested_up_to = $match[0] ?? $wp_version;
+    $readme .= "Tested up to: {$tested_up_to}\n";
+
+    $readme .= "Tested up to: {$tested_up_to}\n";
+    $readme .= "Stable tag: {$ver}\n";
+    $readme .= "License: {$license}\n";
+    $readme .= "License URI: {$license_uri}\n\n";
+    
+    $readme .= "== Description ==\n";
+    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Describe your plugin here.\n\n");
+
+    $readme .= "== Installation ==\n";
+    $readme .= "1. Upload to `/wp-content/plugins/`\n";
+    $readme .= "2. Activate via WordPress admin\n\n";
+    $readme .= "== Changelog ==\n";
+    $readme .= "= {$ver} =\n";
+    $readme .= "- Initial plugin stub generated using Tokenlink Plugin Builder\n";
+
+    file_put_contents("{$plugin_dir}/readme.txt", $readme);
+
+    // Clear plugin cache before activation attempt
+    wp_clean_plugins_cache();
+
+    // Attempt activation quietly
+    $result = activate_plugin("{$slug}/{$slug}.php", '', false, true);
 
     if (is_wp_error($result)) {
-        echo '<div class="notice notice-error"><p>Plugin created but could not be activated.</p></div>';
+        // Ignore common transient cache errors
+        $error_code = $result->get_error_code();
+        if ($error_code === 'invalid_plugin' || $error_code === 'plugin_not_found') {
+            echo '<div class="notice notice-success"><p>Plugin created successfully. Please refresh your Plugins page to activate it.</p></div>';
+            return;
+        }
+        echo '<div class="notice notice-error"><p>Plugin created but could not be activated: ' . esc_html($result->get_error_message()) . '</p></div>';
     } else {
         echo '<div class="notice notice-success"><p>Plugin created and activated successfully.</p></div>';
     }

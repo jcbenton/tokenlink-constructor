@@ -5,7 +5,7 @@
 **Requires at least:** 5.0  
 **Tested up to:** 6.8  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.0.5  
+**Stable tag:** 1.0.6  
 **License:** GPL v3 or later  
 **License URI:** [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html)
 
@@ -82,6 +82,11 @@ Each plugin is created under: /wp-content/plugins/{your-slug}/ with a single PHP
 
 ## Changelog
 
+### 1.0.6
+- Code cleanup and enhancements  
+- Added automatic readme.txt creation  
+
+- 
 ### 1.0.5
 - Code cleanup and enhancements  
 - Added pre-populated license fields  
