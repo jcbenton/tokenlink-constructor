@@ -1,48 +1,69 @@
-# Wordpress - ignore core, configuration, examples, uploads and logs.
-# https://github.com/github/gitignore/blob/main/WordPress.gitignore
+# =========================
+# WordPress Plugin .gitignore
+# =========================
 
-# Core
-#
-# Note: if you want to stage/commit WP core files
-# you can delete this whole section/until Configuration.
-/wp-admin/
-/wp-content/index.php
-/wp-content/languages
-/wp-content/plugins/index.php
-/wp-content/themes/index.php
-/wp-includes/
-/index.php
-/license.txt
-/readme.html
-/wp-*.php
-/xmlrpc.php
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+.AppleDouble
+.LSOverride
+__MACOSX/
 
-# Configuration
-wp-config.php
+# IDE junk
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# Example themes
-/wp-content/themes/twenty*/
-
-# Example plugin
-/wp-content/plugins/hello.php
-
-# Uploads
-/wp-content/uploads/
-
-# Log files
+# Logs, cache, and temp files
 *.log
+*.tmp
+*.bak
+.cache/
+tmp/
+cache/
 
-# htaccess
-/.htaccess
+# Node / Composer / Build artifacts
+node_modules/
+vendor/
+dist/
+build/
+*.map
 
-# All plugins
-#
-# Note: If you wish to whitelist plugins,
-# uncomment the next line
-#/wp-content/plugins
+# WordPress core & uploads (if ever working inside wp-content)
+wp-admin/
+wp-includes/
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/cache/
+wp-content/backups/
 
-# All themes
-#
-# Note: If you wish to whitelist themes,
-# uncomment the next line
-#/wp-content/themes
+# Plugin package files
+*.zip
+
+# Assets (design sources)
+assets/*.psd
+assets/*.ai
+assets/*.xcf
+
+# Local environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# MacOS
+.DS_Store
+
+# PHPStorm project files
+*.iml
+
+# WordPress config
+wp-config.php
+.htaccess
+
+# SVN metadata (if you sync with WP.org)
+.svn/
