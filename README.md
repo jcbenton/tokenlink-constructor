@@ -9,20 +9,20 @@
 **License:** GPL v3 or later  
 **License URI:** [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html)
 
-Lightweight internal extension builder for WordPress developers. Quickly generate and activate a blank extension directly from the admin dashboard.
+Lightweight internal plugin builder for WordPress developers. Quickly generate and activate a blank plugin directly from the admin dashboard.
 
 ---
 
 ## Description
 
-**Tokenlink Constructor** is a simple, secure utility for WordPress developers who want to rapidly prototype or create new extensions without leaving the dashboard.
+**Tokenlink Constructor** is a simple, secure utility for WordPress developers who want to rapidly prototype or create new plugins without leaving the dashboard.
 
-It provides a minimal admin interface under **Plugins → Create Extension** that lets you:
+It provides a minimal admin interface under **Plugins → Create Plugin** that lets you:
 
-- Enter an extension name and metadata  
+- Enter an plugin name and metadata  
 - Automatically create a directory under `/wp-content/plugins/`  
 - Generate a properly formatted PHP header  
-- Immediately activate the new extension after creation  
+- Immediately activate the new plugin after creation  
 
 No filesystem credential prompts, no legacy code, and no unnecessary overhead — just a clean, modern constructor designed for efficiency.
 
@@ -64,11 +64,11 @@ There are three ways to install this extension:
 
 ## Usage
 
-1. Fill in the extension name and optional fields (description, version, author, license).  
-2. Click **Create Extension**.  
+1. Fill in the plugin name and optional fields (description, version, author, license).  
+2. Click **Create Plugin**.  
 3. The new directory and PHP file will be created automatically and activated.
 
-Each extension is created under:  
+Each plugin is created under:  
 `/wp-content/plugins/{your-slug}/`  
 with a single PHP file containing a standard WordPress header.
 
@@ -83,6 +83,10 @@ with a single PHP file containing a standard WordPress header.
 ---
 
 ## Changelog
+
+### 1.0.7
+- Code cleanup and enhancements
+- Wordpress WPCS compliance update.  
 
 ### 1.0.6
 - Code cleanup and enhancements  
@@ -102,7 +106,7 @@ with a single PHP file containing a standard WordPress header.
 
 ## Frequently Asked Questions
 
-### Can it generate extension skeletons or admin pages?
+### Can it generate plugin skeletons or admin pages?
 
 Not yet — this version only generates a clean header and activates the extension.  
 You can extend it easily for skeleton templates.
