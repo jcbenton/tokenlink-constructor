@@ -8,7 +8,7 @@
 # TokenLink Constructor
 
 **Contributors:** mailborder  
-**Tags:** plugin builder, plugin creator, create plugin, extension builder, developer tools
+**Tags:** plugin builder, plugin creator, create plugin, extension builder, developer tools  
 **Requires at least:** 5.0  
 **Tested up to:** 6.8  
 **Requires PHP:** 7.4  
