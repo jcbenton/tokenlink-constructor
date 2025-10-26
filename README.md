@@ -7,7 +7,8 @@
 
 # TokenLink Constructor
 
-**Contributors:** mailborder  
+**Contributors:** [mailborder](https://github.com/jcbenton)  
+**Donate link:** [https://donate.stripe.com/14AdRa6XJ1Xn8yT8KObfO00](https://donate.stripe.com/14AdRa6XJ1Xn8yT8KObfO00)  
 **Tags:** plugin builder, plugin creator, create plugin, extension builder, developer tools  
 **Requires at least:** 5.0  
 **Tested up to:** 6.8  
