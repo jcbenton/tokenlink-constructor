@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Tokenlink Constructor
+Plugin Name: TokenLink Constructor
 Plugin URI: https://www.mailborder.com/tokenlink-constructor
 Description: Instantly create new WordPress plugins from your dashboard. Clean, secure, and built for developers who prefer efficiency over bloat.
-Version: 1.0.7
+Version: 1.0.8
 Author: Mailborder Systems (Jerry Benton)
 Author URI: https://www.mailborder.com/tokenlink-constructor
 License: GPL v3 or later
@@ -45,7 +45,7 @@ function mb_tokenlink_constructor_page() {
 
     ?>
     <div class="wrap">
-        <h1><?php echo esc_html__('Create a New Extension', 'tokenlink-constructor'); ?></h1>
+        <h1><?php echo esc_html__('Create a New Plugin', 'tokenlink-constructor'); ?></h1>
         <form method="post">
             <?php wp_nonce_field('tokenlink_constructor_nonce'); ?>
             <table class="form-table">
@@ -77,7 +77,7 @@ function mb_tokenlink_constructor_page() {
                         value="https://www.gnu.org/licenses/gpl-3.0.html"></td>
                 </tr>
             </table>
-            <?php submit_button(esc_html__('Create Extension', 'tokenlink-constructor')); ?>
+            <?php submit_button(esc_html__('Create Plugin', 'tokenlink-constructor')); ?>
         </form>
     </div>
     <?php
@@ -173,8 +173,9 @@ function mb_tokenlink_constructor_create() {
     $readme .= "Stable tag: {$ver}\n";
     $readme .= "License: {$license}\n";
     $readme .= "License URI: {$license_uri}\n\n";
+    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Put a short description of your plugin here.\n\n");
     $readme .= "== Description ==\n";
-    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Describe your plugin here.\n\n");
+    $readme .= (!empty($desc) ? "{$desc}\n\n" : "Describe your plugin at length here.\n\n");
     $readme .= "== Installation ==\n";
     $readme .= "1. Upload to `/wp-content/plugins/`\n";
     $readme .= "2. Activate via WordPress admin\n\n";
