@@ -45,12 +45,12 @@ function mb_tokenlink_constructor_page() {
 
     ?>
     <div class="wrap">
-        <h1><?php echo esc_html__('Create a New Plugin', 'tokenlink-constructor'); ?></h1>
+        <h1><?php echo esc_html__('Create a New Extension', 'tokenlink-constructor'); ?></h1>
         <form method="post">
             <?php wp_nonce_field('tokenlink_constructor_nonce'); ?>
             <table class="form-table">
                 <tr>
-                    <th><?php echo esc_html__('Plugin Name *', 'tokenlink-constructor'); ?></th>
+                    <th><?php echo esc_html__('Name *', 'tokenlink-constructor'); ?></th>
                     <td><input type="text" name="name" class="regular-text" required></td>
                 </tr>
                 <tr>
@@ -68,38 +68,39 @@ function mb_tokenlink_constructor_page() {
                 </tr>
                 <tr>
                     <th><?php echo esc_html__('License', 'tokenlink-constructor'); ?></th>
-                    <td><input type="text" name="license" class="regular-text" 
+                    <td><input type="text" name="license" class="regular-text"
                         value="GPL v3 or later"></td>
                 </tr>
                 <tr>
                     <th><?php echo esc_html__('License URI', 'tokenlink-constructor'); ?></th>
-                    <td><input type="text" name="license_uri" class="regular-text" 
+                    <td><input type="text" name="license_uri" class="regular-text"
                         value="https://www.gnu.org/licenses/gpl-3.0.html"></td>
                 </tr>
             </table>
-            <?php submit_button(esc_html__('Create Plugin', 'tokenlink-constructor')); ?>
+            <?php submit_button(esc_html__('Create Extension', 'tokenlink-constructor')); ?>
         </form>
     </div>
+    <?php
 
+
+    ?>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const nameField = document.querySelector('input[name="name"]');
         if (!nameField) return;
-
         const preview = document.createElement('p');
         preview.style.color = '#777';
         preview.style.fontStyle = 'italic';
         nameField.parentNode.appendChild(preview);
-
         const update = () => {
             let slug = nameField.value
                 .toLowerCase()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .trim()
-                .replace(/\s+/g, '-');
+                .replace(/_/g, '-')
+                .replace(/[^a-z0-9-]+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
             preview.textContent = slug ? 'Slug: ' + slug : '';
         };
-
         nameField.addEventListener('input', update);
     });
     </script>
