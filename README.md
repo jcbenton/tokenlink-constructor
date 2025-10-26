@@ -1,3 +1,10 @@
+<p align="center">
+  <picture>
+    <source media="(min-width: 768px)" srcset="assets/banner-1544x500.png">
+    <img src="assets/banner-772x250.png" alt="TokenLink – Menu Permissions" width="100%">
+  </picture>
+</p>
+
 # TokenLink Constructor
 
 **Contributors:** mailborder  
